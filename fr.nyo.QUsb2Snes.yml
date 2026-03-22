@@ -7,6 +7,7 @@ finish-args:
     - --socket=fallback-x11
     - --socket=wayland
     - --filesystem=xdg-data
+    - --device=all
 
 modules:
     - name: QUsb2Snes
