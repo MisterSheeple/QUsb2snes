@@ -137,12 +137,14 @@ void    AppUi::setMenu()
         });
         auto openLogAction = miscMenu->addAction(QIcon(":/img/file.svg"), tr(" Open normal logs file"));
         QObject::connect(openLogAction, &QAction::triggered, this, [=] {
-            QDesktopServices::openUrl(QUrl(SQPath::logDirectoryPath() + "/log.txt"));
+            sInfo() << "Opening normal log" << QUrl::fromLocalFile(SQPath::logDirectoryPath() + "/log.txt");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(SQPath::logDirectoryPath() + "/log.txt"));
         });
         auto openDebugLogAction = miscMenu->addAction(QIcon(":/img/file.svg"), tr(" Open debug logs file"));
         openDebugLogAction->setEnabled(globalSettings->value("debugLog").toBool());
         QObject::connect(openDebugLogAction, &QAction::triggered, this, [=] {
-            QDesktopServices::openUrl(QUrl(SQPath::logDirectoryPath() + "/log-debug.txt"));
+            sInfo() << "Opening debug log" << QUrl::fromLocalFile(SQPath::logDirectoryPath() + "/log-debug.txt");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(SQPath::logDirectoryPath() + "/log-debug.txt"));
         });
         QObject::connect(menu->addAction(QIcon(":/img/quiticon.svg"), tr("Exit")), &QAction::triggered, qApp, &QApplication::exit);
         appsMenu->addSeparator();
