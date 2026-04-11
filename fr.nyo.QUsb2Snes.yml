@@ -25,9 +25,6 @@ modules:
       no-make-install: true
       build-commands:
         - "cd QFile2Snes && sh ./sqpackager_unix_installer.sh --prefix /app/ DEFINES+='SQPROJECT_FLATPAK_INSTALL'  CONFIG+='release'"
-        - mv /app//share/applications/fr.nyo.QFile2Snes.desktop /app//share/applications/fr.nyo.QUsb2Snes.QFile2Snes.desktop
-        - mv /app/share/icons/hicolor/48x48/apps/fr.nyo.QFile2Snes.png /app//share/icons/hicolor/48x48/apps/fr.nyo.QUsb2Snes.QFile2Snes.png
-        - desktop-file-edit --set-key=Icon --set-value=fr.nyo.QUsb2Snes.QFile2Snes /app//share/applications/fr.nyo.QUsb2Snes.QFile2Snes.desktop
       sources:
        - type: dir
          path: ./

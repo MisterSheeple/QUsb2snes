@@ -415,6 +415,14 @@ void AppUi::checkForApplications()
                 sInfo() << "Found an application" << appInfo;
             }
         }
+        for (const QFileInfo& fi : appsDir.entryInfoList(QDir::Files))
+        {
+            if (fi.suffix() == "json")
+            {
+                ApplicationInfo appInfo = parseJsonAppInfo(fi.absoluteFilePath());
+                regularApps[appInfo.executablePath] = appInfo;
+            }
+        }
     }
     sInfo() << "Searching for .json description in " << sharedAppsLocation().absolutePath();
     for (const QFileInfo& fi : sharedAppsLocation().entryInfoList(QDir::NoDotAndDotDot | QDir::Files))
@@ -426,11 +434,11 @@ void AppUi::checkForApplications()
             sInfo() << "Found an application" << appInfo;
         }
     }
-    if (ISFLATPAK())
+    /*if (ISFLATPAK())
     {
         const auto appInfo = getAppInfosFromDesktop("fr.nyo.QUsb2Snes.QFile2Snes");
         regularApps[appInfo.executablePath] = appInfo;
-    }
+    }*/
 }
 
 

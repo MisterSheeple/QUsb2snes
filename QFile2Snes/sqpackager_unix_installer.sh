@@ -82,7 +82,7 @@ if [ "$COMPILE_PREFIX" = "" ]; then
 fi
 
 DESKTOP_FILE="QFile2Snes.desktop"
-NORMALIZED_DESKTOP_FILE_NAME="fr.nyo.QFile2Snes.desktop"
+NORMALIZED_DESKTOP_FILE_NAME="fr.nyo.QUsb2Snes.QFile2Snes.desktop"
 APPLICATION_NAME="QFile2Snes"
 APPLICATION_SHARE="$INSTALL_PREFIX/share/$APPLICATION_NAME"
 APPLICATION_COMPILE_SHARE="$COMPILE_PREFIX/share/$APPLICATION_NAME"
@@ -114,7 +114,7 @@ echo "Installing .desktop file"
 
 install -v -d $INSTALL_PREFIX/share/applications/
 install -v -Dm644 $DESKTOP_FILE $INSTALL_PREFIX/share/applications/$NORMALIZED_DESKTOP_FILE_NAME
-install -v -D "icon48x48.png" $INSTALL_PREFIX/share/icons/hicolor/48x48/apps/fr.nyo.QFile2Snes.png
+install -v -D "icon48x48.png" $INSTALL_PREFIX/share/icons/hicolor/48x48/apps/fr.nyo.QUsb2Snes.QFile2Snes.png
 
 
 echo "Installing Readme file"
