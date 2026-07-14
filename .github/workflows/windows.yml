@@ -20,19 +20,22 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: '14.44'
       - uses: little-core-labs/get-git-tag@v3.0.1
         id: tagName
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with: 
           submodules : true
       -
        # I wish I could use Chocolatey or something else but it's a pain in the but
         name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '6.4.1'
+          arch: 'win64_msvc2019_64'
           modules: 'qtwebsockets qtserialport'
       -
         name: build      
@@ -96,7 +99,7 @@ jobs:
             7z a "QUsb2Snes.7z" QUsb2Snes
       -
         name: Upload 7zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: QUsb2Snes.7z
           path: QUsb2Snes.7z

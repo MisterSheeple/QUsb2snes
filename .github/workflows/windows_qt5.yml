@@ -20,19 +20,22 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: '14.44'
       - uses: little-core-labs/get-git-tag@v3.0.1
         id: tagName
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         with: 
           submodules : true
       -
        # I wish I could use Chocolatey or something else but it's a pain in the but
         name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          version: '5.12.2'
+          version: '5.15.2'
+          arch: 'win64_msvc2019_64'
       -
         name: build      
         run: | 
@@ -58,9 +61,15 @@ jobs:
             xcopy release\WinUpdater.exe QUsb2Snes\
             cd QUsb2Snes
             windeployqt.exe --no-translations --no-system-d3d-compiler --no-opengl-sw --no-opengl --no-webkit --no-patchqt --no-webkit2 --release  QUsb2Snes.exe
+            if (test-path vc_redist.x64.exe) {
             Remove-Item vc_redist.x64.exe
+            }
+            if (test-path libEGL.dll) {
             Remove-Item libEGL.dll
+            }
+            if (test-path libGLESV2.dll) {
             Remove-Item libGLESV2.dll
+            }
             Copy-Item ..\LICENSE .\LICENCE-GPLV3.txt
             Copy-Item ..\README.md .\Readme.txt
             mkdir LuaBridge
@@ -86,12 +95,12 @@ jobs:
             Copy-Item serverstuff.hmod QUsb2Snes\
             # Open SSL for the updater
             #dir "C:\Program Files\OpenSSL-Win64\bin\"
-            Copy-Item "C:\Program Files\OpenSSL\bin\libcrypto-1_1-x64.dll" QUsb2Snes\libcrypto-1_1-x64.dll
-            Copy-Item "C:\Program Files\OpenSSL\bin\libssl-1_1-x64.dll" QUsb2Snes\libssl-1_1-x64.dll
+            Copy-Item "C:\Program Files\OpenSSL\bin\libcrypto-3-x64.dll" QUsb2Snes\libcrypto-3-x64.dll
+            Copy-Item "C:\Program Files\OpenSSL\bin\libssl-3-x64.dll" QUsb2Snes\libssl-3-x64.dll
             7z a "QUsb2Snes.7z" QUsb2Snes
       -
         name: Upload 7zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: QUsb2Snes.7z
           path: QUsb2Snes.7z
