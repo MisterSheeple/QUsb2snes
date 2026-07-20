@@ -5,7 +5,7 @@ Project {
 
     QtApplication {
         name : "QUsb2Snes"
-        cpp.cxxLanguageVersion: "c++17"
+        cpp.cxxLanguageVersion: "c++20"
         cpp.includePaths: ["devices/EmuNWAccess-qt", "./", "core/"]
         consoleApplication: false
         files: [

@@ -97,9 +97,9 @@ public:
                                     || (type == QMetaType::Bool && std::is_same<T, bool>::value)
                                     || (type == QMetaType::Double && std::is_same<T, double>::value);
 
-        #if __cpp_static_assert >= 202306L
+        #if __cpp_static_assert >= 202306L && __cplusplus > 202302L
             const QMetaEnum meta = QMetaEnum::fromType<SettingsV>();
-            const QString text = QString::fromLatin1(meta.valueToKey(key));
+            const char* text = meta.valueToKey(key);
             static_assert(canConvert, std::format("Settings: Unexpected type used for the key. {0} is a {1}", text, QMetaType::typeName(type)));
         #else
             static_assert(canConvert, "Settings: Unexpected type used for the key");
