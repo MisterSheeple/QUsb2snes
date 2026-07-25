@@ -4,15 +4,19 @@ Upstream-Name: QUsb2Snes
 Upstream-Contact: Sylvain Colinet <scolinet@gmail.com>
 
 Files:
+ *.c
  *.cpp
  *.h
+ *.hpp
  *.ui
  *.desktop
  *.pro
  *.adoc
  *.md
+ QUsb2snes.qbs
  QFile2Snes/Translations/qfile2snes_fr.ts
  QFile2Snes/Translations/sendtodialog_fr.ts
+ Translations/QUsb2Snes_fr.ts
 Copyright: 2020 Sylvain Colinet <scolinet@gmail.com>
 License: GPL-3
 
@@ -34,6 +38,11 @@ Files:
 Copyright: Google
 Comment: Google materal symbols
 License: Apache-2.0
+
+Files:
+ LuaBridge/luabridge.lua
+Copyright: 2018 OsteHovel
+Licence: Expat
 
 Files:
  ui/icons/poptrackericon.png
@@ -79,13 +88,11 @@ Files:
 Copyright: Taw
 License: CC-BY-4.0
 
-
 Files:
  ui/wizard/pictures/hakchi.png
  ui/wizard/pictures/hakchiicon.ico
 Copyright: Cluster clusterrr@clusterrr.com
 License: GPL-3
-
 
 Files:
  debian/*
