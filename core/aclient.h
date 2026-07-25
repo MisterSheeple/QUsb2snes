@@ -64,7 +64,7 @@ public:
 signals:
     void    closed();
     void    newRequest(Core::MRequest* req);
-    void    binaryData(QByteArray data);
-    void    errorOccured(Core::ErrorType err, QString message);
+    void    binaryData(const QByteArray& data);
+    void    errorOccured(const Core::ErrorType err, const QString message);
 
 };
