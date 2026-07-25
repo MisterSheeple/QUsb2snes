@@ -443,11 +443,12 @@ void AppUi::checkForApplications()
             sInfo() << "Found an application" << appInfo;
         }
     }
-    /*if (ISFLATPAK())
+    if (ISLINUX())
     {
+        sInfo() << "Linux env: Searching for QFile2Snes desktop file info";
         const auto appInfo = getAppInfosFromDesktop("fr.nyo.QUsb2Snes.QFile2Snes");
         regularApps[appInfo.executablePath] = appInfo;
-    }*/
+    }
 }
 
 

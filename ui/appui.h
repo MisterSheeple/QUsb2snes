@@ -151,6 +151,12 @@ private:
 #endif
         return false;
     }
+    constexpr bool ISLINUX() {
+#ifdef Q_OS_LINUX
+        return true;
+#endif
+        return false;
+    }
 
     QList<PopTrackerPackInfo> poptrackerScanPack();
     bool checkPopTracker();
