@@ -160,7 +160,7 @@ void    AppUi::DLManagerRequestFinished(QNetworkReply* reply)
 
 void AppUi::updated(QString fromVersion)
 {
-    QMessageBox::about(nullptr, tr("QUsb2Snes updated succesfully"),
+    QMessageBox::about(nullptr, tr("QUsb2Snes updated successfully"),
                        QString(tr("QUsb2Snes successfully updated to version %2")).arg(fromVersion).arg(qApp->applicationVersion()));
     if (false == globalSettings->contains("telemetrydatahandled"))
     {
@@ -177,7 +177,7 @@ void AppUi::updated(QString fromVersion)
         if (globalSettings->value("emunwaccess").toBool())
             devices << "NWA";
         auto ok = QMessageBox::question(nullptr, tr("QUsb2Snes telemetry"), QString(tr("QUsb2Snes can collect informations to have a better "
-                                 "understanding of its users. \nWe don't collect personnal data, here what will be collected :\n"
+                                 "understanding of its users. \nWe don't collect personal data, here what will be collected :\n"
                                                                             "QUsb2Snes' version : %1 - Device(s) selected : [%3] - System : %2\n\nDo you agree to send this?")
                                 ).arg(qApp->applicationVersion(), QSysInfo::prettyProductName(), devices.join(", ")));
         if (ok == QMessageBox::Yes)

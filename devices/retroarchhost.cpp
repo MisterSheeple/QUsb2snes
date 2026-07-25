@@ -276,7 +276,7 @@ void RetroArchHost::onPacket(QByteArray& data)
             QRegularExpressionMatch match = statusExp.match(data);
             if (!match.hasMatch())
             {
-                makeInfoFail("RetroArch did not return a proper formated status reply");
+                makeInfoFail("RetroArch did not return a proper formatted status reply");
                 break;
             }
             QString status = match.captured(1);

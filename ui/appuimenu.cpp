@@ -249,7 +249,7 @@ void AppUi::onMenuHovered(QAction* action)
     if (serverStatus.deviceFactoryCount == 0)
     {
         UiWidget->noDevicesStatus();
-        deviceMenu->addAction(tr("No device activated, please enable one in the list bellow"));
+        deviceMenu->addAction(tr("No device activated, please enable one in the list below"));
     }
     UiWidget->clearClientStatus();
     for (const QString& clientName : wsServer.getAllClientsName())

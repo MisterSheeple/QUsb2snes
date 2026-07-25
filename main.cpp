@@ -100,7 +100,7 @@ static void onCrash()
     QFile crashLog(SQPath::logDirectoryPath() + "/crash-log.txt");
     if (!crashLog.open(QIODevice::WriteOnly | QIODevice::Text))
         exit(1);
-    crashLog.write(QString("Runing QUsb2Snes version " + qApp->applicationVersion() + "\n").toUtf8());
+    crashLog.write(QString("Running QUsb2Snes version " + qApp->applicationVersion() + "\n").toUtf8());
     crashLog.write(QString("Compiled against Qt" + QString(QT_VERSION_STR) + ", running" + qVersion() + "\n").toUtf8());
     for (unsigned int i = 0; i < logDebugCrash.size(); i++)
     {
@@ -270,7 +270,7 @@ int main(int ac, char *ag[])
     auto appNap = new AppNapSuspender();
     appNap->suspend();
 #endif
-    qInfo() << "Runing QUsb2Snes version " << qApp->applicationVersion();
+    qInfo() << "Running QUsb2Snes version " << qApp->applicationVersion();
     qInfo() << "Compiled against Qt" << QT_VERSION_STR << ", running" << qVersion();
     // let set some know trusted domain
     wsServer.addTrusted("https://www.multitroid.com");

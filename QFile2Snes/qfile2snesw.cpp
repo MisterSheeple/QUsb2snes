@@ -342,7 +342,7 @@ void QFile2SnesW::on_patchButton_clicked()
     if (fileName.isEmpty())
         return ;
     if (usb2snes->patchROM(fileName))
-        ui->statusBar->showMessage(tr("Patch applied succesfully"));
+        ui->statusBar->showMessage(tr("Patch applied successfully"));
     else {
         ui->statusBar->showMessage(tr("Error when applying a patch"));
     }
