@@ -34,59 +34,70 @@ void AppUi::checkForNewVersion(bool manual)
     if (!QSslSocket::supportsSsl())
         return;
     QNetworkAccessManager* manager = new QNetworkAccessManager();
-    QObject::connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply* reply)
-                     {
-                         sDebug() << "Finished" << reply->size();
-                         QByteArray data = reply->readAll();
-                         QJsonDocument doc = QJsonDocument::fromJson(data);
-                         QJsonArray jArr = doc.array();
-                         QString lastTag = jArr.at(0).toObject().value("tag_name").toString();
-                         QString body = jArr.at(0).toObject().value("body").toString();
-                         QString name = jArr.at(0).toObject().value("name").toString();
-                         sInfo() << "Latest release is " << lastTag;
-                         sDebug() << body;
-                         body.replace('\n', "<br/>");
-                         body.replace('\r', "");
+    QObject::connect(manager, &QNetworkAccessManager::finished, this, [=, this](QNetworkReply* reply)
+                    {
+                        sDebug() << "Finished" << reply->size();
+                        QByteArray data = reply->readAll();
+                        QJsonDocument doc = QJsonDocument::fromJson(data);
+                        QJsonArray jArr = doc.array();
+                        QString lastTag = jArr.at(0).toObject().value("tag_name").toString();
+                        QString body = jArr.at(0).toObject().value("body").toString();
+                        QString name = jArr.at(0).toObject().value("name").toString();
+                        sInfo() << "Latest release is " << lastTag;
+                        sDebug() << body;
+                        body.replace('\n', "<br/>");
+                        body.replace('\r', "");
+                        QVersionNumber appVersion = QVersionNumber::fromString(qApp->applicationVersion());
+                        QVersionNumber lastReleaseVersion = QVersionNumber::fromString(lastTag.remove(0, 1));
 
-                         if (QVersionNumber::fromString(qApp->applicationVersion()) < QVersionNumber::fromString(lastTag.remove(0, 1)))
-                         {
-                             QMessageBox msg;
-                             msg.setText(QString(tr("A new version of QUsb2Snes is available : QUsb2Snes %1\nDo you want to upgrade to it?")).arg(lastTag));
-                             msg.setWindowTitle(tr("New version of QUsb2Snes available"));
-                             msg.setInformativeText(QString("<b>%1</b><p>%2</p>").arg(name).arg(body));
-                             msg.addButton(QMessageBox::Yes);
-                             msg.addButton(QMessageBox::No);
-                             msg.setDefaultButton(QMessageBox::No);
-                             int but = msg.exec();
-                             if (but == QMessageBox::Yes)
-                             {
-                                 if (dlManager == nullptr)
-                                 {
-                                     initDLManager();
-                                     dlLabel = new QLabel();
-                                     dlProgressBar = new QProgressBar();
-                                     dlProgressBar->setTextVisible(false);
-                                     dlLabel->setText(tr("Downloading the Windows Updater"));
-                                     dlWindow = new QWidget();
-                                     QVBoxLayout* layout = new QVBoxLayout();
-                                     dlWindow->setWindowTitle("Updating Updater");
-                                     dlWindow->setWindowIcon(QIcon(":/icon64x64.ico"));
-                                     dlWindow->setLayout(layout);
-                                     layout->addWidget(dlLabel);
-                                     layout->addWidget(dlProgressBar);
-                                 }
-                                 dlWindow->show();
-                                 dlManager->get(QNetworkRequest(QUrl("https://api.github.com/repos/Skarsnik/QUsb2Snes/releases")));
-                                 //QString upExe(qApp->applicationDirPath() + "/WinUpdater.exe");
-                                 //(int)::ShellExecute(0, reinterpret_cast<const WCHAR*>("runas"), reinterpret_cast<const WCHAR*>(upExe.utf16()), 0, 0, SW_SHOWNORMAL);
-                                 //QProcess::startDetached(upExe);
-                                 //qApp->exit(0);
+                        if (appVersion < lastReleaseVersion)
+                        {
+                            QMessageBox msg;
+                            msg.setText(QString(tr("A new version of QUsb2Snes is available : QUsb2Snes %1\nDo you want to upgrade to it?")).arg(lastTag));
+                            msg.setWindowTitle(tr("New version of QUsb2Snes available"));
+                            if (appVersion.minorVersion() < 8
+                                && lastReleaseVersion.minorVersion() >= 8)
+                            {
+                                msg.setInformativeText("QUsb2snes 0.8 or superior use a new version of its base framework. To avoid any compatibilities issues it's recommanded "
+                                                       "you download the last release manually");
+                                msg.addButton(QMessageBox::No);
+                                msg.exec();
+                                return ;
+                            }
+                            msg.setInformativeText(QString("<b>%1</b><p>%2</p>").arg(name).arg(body));
+                            msg.addButton(QMessageBox::Yes);
+                            msg.addButton(QMessageBox::No);
+                            msg.setDefaultButton(QMessageBox::No);
+                            int but = msg.exec();
+                            if (but == QMessageBox::Yes)
+                            {
+                                if (dlManager == nullptr)
+                                {
+                                    initDLManager();
+                                    dlLabel = new QLabel();
+                                    dlProgressBar = new QProgressBar();
+                                    dlProgressBar->setTextVisible(false);
+                                    dlLabel->setText(tr("Downloading the Windows Updater"));
+                                    dlWindow = new QWidget();
+                                    QVBoxLayout* layout = new QVBoxLayout();
+                                    dlWindow->setWindowTitle("Updating Updater");
+                                    dlWindow->setWindowIcon(QIcon(":/icon64x64.ico"));
+                                    dlWindow->setLayout(layout);
+                                    layout->addWidget(dlLabel);
+                                    layout->addWidget(dlProgressBar);
+                                }
+                                dlWindow->show();
+                                dlManager->get(QNetworkRequest(QUrl("https://api.github.com/repos/Skarsnik/QUsb2Snes/releases")));
+                                //QString upExe(qApp->applicationDirPath() + "/WinUpdater.exe");
+                                //(int)::ShellExecute(0, reinterpret_cast<const WCHAR*>("runas"), reinterpret_cast<const WCHAR*>(upExe.utf16()), 0, 0, SW_SHOWNORMAL);
+                                //QProcess::startDetached(upExe);
+                                //qApp->exit(0);
                              }
-                         } else {
-                             if (manual)
-                                 QMessageBox::information(nullptr, tr("No new version of QUsb2Snes available"), tr("No new version of QUsb2Snes available"));
-                         }
-                     });
+                        } else {
+                            if (manual)
+                                QMessageBox::information(nullptr, tr("No new version of QUsb2Snes available"), tr("No new version of QUsb2Snes available"));
+                        }
+                    });
     manager->get(QNetworkRequest(QUrl("https://api.github.com/repos/Skarsnik/QUsb2snes/releases")));
     sDebug() << "Get";
 }
@@ -122,7 +133,7 @@ void    AppUi::DLManagerRequestFinished(QNetworkReply* reply)
                 QObject::connect(dlReply, &QNetworkReply::redirected, [=] {
                     sDebug() << "DL reply redirected";
                 });
-                QObject::connect(dlReply, &QNetworkReply::downloadProgress, this, [=](qint64 bytesRcv, qint64 bytesTotal)
+                QObject::connect(dlReply, &QNetworkReply::downloadProgress, this, [=, this](qint64 bytesRcv, qint64 bytesTotal)
                                  {
                                      qDebug() << 20 + (bytesRcv / bytesTotal) * 80;
                                      dlProgressBar->setValue(20 + (bytesRcv / bytesTotal) * 80);
