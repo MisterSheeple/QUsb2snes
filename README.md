@@ -100,7 +100,7 @@ You can connect to a remote RetroArch by adding a `RetroArchHosts="remoteName=ip
 If, for some reason, your SNES classic does not have the expected IP address (connected via wifi or something) you can add a `SNESClassicIP=myip` in the config.ini file.
 
 
-### Native emulator (canoe)
+#### Native emulator (canoe)
 
 Mostly tested with Super Metroid.
 
@@ -115,7 +115,7 @@ Start the game and check if the SNES classic appear on the Devices menu, it shou
 It will not work with the 'normal' Hakchi2 version as the Hakchi2 CE provide a more stable way to access the SNES Classic.
 
 
-### RetroArch
+#### RetroArch
 
 Enable the RetroArch support via the context menu, by changing the corresponding option in the config file to `true`, or by starting a NOGUI compiled version with the `retroarch` argument.
 Open Hakchi2 CE and in the menu go to 'tools -> open ftp client' it should open your default browser, copy paste the url it should look like `ftp://169.254.13.37/` for the default ip, and paste in the file explorer to go to it (if it ask you for user/password, just put root as user, there is no password).
